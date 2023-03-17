@@ -1,0 +1,5 @@
+.leikbord{
+    -fx-background-image: url("myndir/backround.png");
+    -fx-background-size:stretch;
+    -fx-backround-positions:center;
+}

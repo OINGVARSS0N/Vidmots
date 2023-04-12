@@ -20,14 +20,14 @@ import java.util.HashMap;
 import java.util.Optional;
 
 
-public class BouncedownController {
+public class BouncedownController{
 
     private static final int UPP = 90;
     private static final int NIDUR = 270;
     private static final int VINSTRI = 180;
     private static final int HAEGRI = 360;
     @FXML
-    Bolti bolti;
+    Bolti fxbolti;
     @FXML
     Leikbord fxLeikbord;
     @FXML
@@ -43,31 +43,10 @@ public class BouncedownController {
         leikur = new Leikur(fxStig);
     }
     public void orvatakkar() {
-        bolti.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
-                event -> {
-                    switch (event.getCode()) {
-                        case LEFT:
-                            bolti.setMovingLeft(true);
-                            break;
-                        case RIGHT:
-                            bolti.setMovingRight(true);
-                            break;
-                    }
-                });
-        bolti.getScene().addEventFilter(KeyEvent.KEY_RELEASED,
-                event -> {
-                    switch (event.getCode()) {
-                        case LEFT:
-                            bolti.setMovingLeft(false);
-                            break;
-                        case RIGHT:
-                            bolti.setMovingRight(false);
-                            break;
-                    }
-                });
+        fxLeikbord.orvatakkar();
     }
     public void hefjaLeik() {
-        KeyFrame k = new KeyFrame(Duration.millis(50), e -> {
+        KeyFrame k = new KeyFrame(Duration.millis(40), e -> {
             fxLeikbord.afram(leikur);
             fxLeikbord.athugaArekstur();
             leiklokid();
@@ -78,7 +57,7 @@ public class BouncedownController {
     }
     public void muteaLeik(){
         //notar "m" til þess að mutea leikinn
-        String lag = "/Users/oskarsamuel/Documents/HÍ/Vorönn2023/Viðmóts/Bouncedown/src/main/java/hi/is/vidmot/bouncedown/seashanty.mp3";
+        String lag = "src/main/java/hi/is/vidmot/bouncedown/seashanty.mp3";
         Media sound = new Media(new File(lag).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         Button muteButton = new Button("Mute");
@@ -114,14 +93,11 @@ public class BouncedownController {
 
     }
 
-    private void leiklokid(){
-        if(fxLeikbord.tapaleik){
+    private void leiklokid() {
+        if (fxLeikbord.tapaleik) {
             t.stop();
             Platform.runLater(() -> synaAlert());
         }
-    }
-    public void setStefna(int gradur) {
-        fxLeikbord.setStefna(gradur);
     }
     private void synaAlert() {
         Alert a = new AdvorunDialog("", BouncedownApplication.skra, "Nice try kid");

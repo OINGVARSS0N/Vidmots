@@ -5,8 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import Vinnsla.Leikur;
-import javafx.scene.control.Alert;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
@@ -31,7 +29,6 @@ public class Leikbord extends Pane {
 
     private final int Max_breidd = 600;
     private final int Max_haed = 600;
-    private BouncedownController sc;
 
     public Leikbord() {
         FXML_Lestur.lesa(this, "leikbord-view.fxml");
@@ -39,8 +36,9 @@ public class Leikbord extends Pane {
         pallar();
     }
 
+
     public void bolti() {
-        fxbolti.setTranslateX(100);
+        fxbolti.setTranslateX(20);
         fxbolti.setTranslateY(1);
     }
 
@@ -85,10 +83,35 @@ public class Leikbord extends Pane {
     public void afram(Leikur leikur){
         if(!tapaleik){
             fxbolti.move(270);
+            fxbolti.afram();
             leikur.haekkastig(1);
             for (Pallur i : pallur){
                 i.move(270);
             }tapaleik();
         }
+    }
+    public void orvatakkar() {
+        fxbolti.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
+                event -> {
+                    switch (event.getCode()) {
+                        case LEFT:
+                            fxbolti.setMovingLeft(true);
+                            break;
+                        case RIGHT:
+                            fxbolti.setMovingRight(true);
+                            break;
+                    }
+                });
+        fxbolti.getScene().addEventFilter(KeyEvent.KEY_RELEASED,
+                event -> {
+                    switch (event.getCode()) {
+                        case LEFT:
+                            fxbolti.setMovingLeft(false);
+                            break;
+                        case RIGHT:
+                            fxbolti.setMovingRight(false);
+                            break;
+                    }
+                });
     }
 }

@@ -33,7 +33,10 @@ public class Bolti extends ImageView implements Leikhlutur {
     }
 
     public void afram() {
-
+        if (movingLeft != movingRight){
+            if(movingLeft) setX(getX()-hreyfing);
+            else setX(getX()+hreyfing);
+        }
     }
 
     public boolean erArekstur(Pallur i) {

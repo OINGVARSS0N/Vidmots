@@ -7,8 +7,11 @@ import javafx.fxml.FXML;
 import Vinnsla.Leikur;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import java.util.Random;
+
 
 public class Leikbord extends Pane {
     private static final Random random = new Random();
@@ -30,6 +33,7 @@ public class Leikbord extends Pane {
     private final int Max_breidd = 600;
     private final int Max_haed = 600;
 
+
     public Leikbord() {
         FXML_Lestur.lesa(this, "leikbord-view.fxml");
         bolti();
@@ -38,47 +42,29 @@ public class Leikbord extends Pane {
 
 
     public void bolti() {
-        fxbolti.setTranslateX(20);
+        fxbolti.setTranslateX(10);
         fxbolti.setTranslateY(1);
     }
 
     public void pallar() {
-        pallur.add(fxpallur1);
-        pallur.add(fxpallur2);
-        pallur.add(fxpallur3);
-        pallur.add(fxpallur4);
-        pallur.add(fxpallur5);
-
-        fxpallur1.setX(random.nextInt(Max_breidd));
-        fxpallur1.setY(random.nextInt(Max_haed));
-        fxpallur2.setX(random.nextInt(Max_breidd));
-        fxpallur2.setY(random.nextInt(Max_haed));
-        fxpallur3.setX(random.nextInt(Max_breidd));
-        fxpallur3.setY(random.nextInt(Max_haed));
-        fxpallur4.setX(random.nextInt(Max_breidd));
-        fxpallur4.setY(random.nextInt(Max_haed));
-        fxpallur5.setX(random.nextInt(Max_breidd));
-        fxpallur5.setY(random.nextInt(Max_haed));
+        pallur.addAll(fxpallur1, fxpallur2, fxpallur3, fxpallur4, fxpallur5);
+        pallur.forEach(p -> {
+            p.setX(random.nextInt(Max_breidd-120));
+            p.setY(random.nextInt(Max_haed-50));
+        });
     }
-
-    public void setStefna(int upp) {
-        fxbolti.move(upp);
-    }
-
     public void athugaArekstur() {
         for (Pallur i : pallur) {
             if (fxbolti.erArekstur(i)) {
-                fxbolti.setY(i.getY()-(fxbolti.getFitHeight()));
+                fxbolti.setY(i.getY()-61);
                 break;
             }
         }
     }
-
     public void tapaleik() {
         if (fxbolti.getY() > 600 || fxbolti.getY() < 0) {
             tapaleik = true;
         }
-
     }
     public void afram(Leikur leikur){
         if(!tapaleik){

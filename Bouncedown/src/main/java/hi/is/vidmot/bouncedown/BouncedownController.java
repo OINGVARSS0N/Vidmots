@@ -22,12 +22,10 @@ import java.util.Optional;
 
 public class BouncedownController{
 
-    private static final int UPP = 90;
+    static final int UPP = 90;
     private static final int NIDUR = 270;
     private static final int VINSTRI = 180;
     private static final int HAEGRI = 360;
-    @FXML
-    Bolti fxbolti;
     @FXML
     Leikbord fxLeikbord;
     @FXML
@@ -46,7 +44,7 @@ public class BouncedownController{
         fxLeikbord.orvatakkar();
     }
     public void hefjaLeik() {
-        KeyFrame k = new KeyFrame(Duration.millis(40), e -> {
+        KeyFrame k = new KeyFrame(Duration.millis(30), e -> {
             fxLeikbord.afram(leikur);
             fxLeikbord.athugaArekstur();
             leiklokid();

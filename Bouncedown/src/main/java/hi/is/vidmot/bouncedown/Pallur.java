@@ -1,8 +1,6 @@
 package hi.is.vidmot.bouncedown;
 
-import javafx.fxml.FXML;
 import javafx.scene.shape.Rectangle;
-
 import java.util.Random;
 
 
@@ -11,8 +9,7 @@ public class Pallur extends Rectangle implements Leikhlutur {
     private static final Random random = new Random();
     private int hradi=4;
     private int teljari=0;
-    @FXML
-    Pallur platform;
+
     public Pallur () {
             FXML_Lestur.lesa(this,"pallur-view.fxml");
         }
@@ -29,7 +26,6 @@ public class Pallur extends Rectangle implements Leikhlutur {
 
         }
     }
-
     @Override
     public void afram() {
 

@@ -29,7 +29,6 @@ public class Leikbord extends Pane {
     @FXML
     private Pallur fxpallur5;
     public boolean tapaleik = false;
-
     private final int Max_breidd = 600;
     private final int Max_haed = 600;
 
@@ -39,11 +38,12 @@ public class Leikbord extends Pane {
         bolti();
         pallar();
     }
-
-
+    //staðsetur boltan
     public void bolti() {
         fxbolti.setTranslateX(10);
         fxbolti.setTranslateY(1);
+        fxbolti.setX(Max_breidd/2);
+        fxbolti.setY(100);
     }
 
     public void pallar() {
@@ -54,15 +54,31 @@ public class Leikbord extends Pane {
         });
     }
     public void athugaArekstur() {
+        double yHradiBolta = fxbolti.getY() + fxbolti.getFitHeight();
+        boolean collided = false;
+        double highestPallurY = Double.MIN_VALUE;
+
         for (Pallur i : pallur) {
-            if (fxbolti.erArekstur(i)) {
-                fxbolti.setY(i.getY()-61);
-                break;
+            double yHradiPallur = i.getY();
+
+            if (yHradiBolta >= yHradiPallur && yHradiBolta <= yHradiPallur + i.getHeight()) {
+                // skoðar ef boltinn snertir pallinn frá hliðinni
+                if (fxbolti.getX() + fxbolti.getFitWidth() > i.getX()
+                        && fxbolti.getX() < i.getX() + i.getWidth()) {
+                    collided = true;
+                    if (yHradiPallur > highestPallurY) {
+                        highestPallurY = yHradiPallur;
+                    }
+                }
             }
+        }
+
+        if (collided) {
+            fxbolti.setY(highestPallurY - fxbolti.getFitHeight());
         }
     }
     public void tapaleik() {
-        if (fxbolti.getY() > 600 || fxbolti.getY() < 0) {
+        if (fxbolti.getY() > Max_haed || fxbolti.getY() < 0) {
             tapaleik = true;
         }
     }

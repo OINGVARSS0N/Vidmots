@@ -22,10 +22,6 @@ import java.util.Optional;
 
 public class BouncedownController{
 
-    static final int UPP = 90;
-    private static final int NIDUR = 270;
-    private static final int VINSTRI = 180;
-    private static final int HAEGRI = 360;
     @FXML
     Leikbord fxLeikbord;
     @FXML
@@ -43,6 +39,7 @@ public class BouncedownController{
     public void orvatakkar() {
         fxLeikbord.orvatakkar();
     }
+
     public void hefjaLeik() {
         KeyFrame k = new KeyFrame(Duration.millis(30), e -> {
             fxLeikbord.afram(leikur);
@@ -76,29 +73,31 @@ public class BouncedownController{
         //notar ESC til þess að pása leikinn
         fxStig.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                // Toggle pause state
+                // Togglar pásuna
                 isPaused = !isPaused;
 
                 if (isPaused) {
-                    // Pause the animation
+                    // Pásar
                     t.pause();
                 } else {
-                    // Resume the animation
+                    // Byrjar
                     t.play();
                 }
             }
         });
 
     }
-
+    //þegar characterinn fer á botninn eða toppinn þá tapast leikurinn og það kemur aðvörun Dialog
     private void leiklokid() {
         if (fxLeikbord.tapaleik) {
             t.stop();
             Platform.runLater(() -> synaAlert());
         }
     }
+
     private void synaAlert() {
-        Alert a = new AdvorunDialog("", BouncedownApplication.skra, "Nice try kid");
+        Alert a;
+        a = new AdvorunDialog("", BouncedownApplication.skra, "Nice try kid");
         Optional<ButtonType> u = a.showAndWait();
         if (u.isPresent() && u.get().getButtonData().isCancelButton()){
             System.exit(0);

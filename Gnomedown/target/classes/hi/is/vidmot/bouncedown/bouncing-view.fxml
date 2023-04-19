@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import hi.is.vidmot.bouncedown.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="600" maxWidth="600" stylesheets="@bouncingball.css" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.is.vidmot.bouncedown.BouncedownController">
+   <center>
+      <Leikbord fx:id="fxLeikbord" prefHeight="535.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <Label fx:id="fxStig" text="Stig: " alignment="CENTER" prefHeight="65.0" prefWidth="600.0"
+             BorderPane.alignment="CENTER" style="-fx-background-color: WHITE;">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </bottom>
+</BorderPane>

@@ -1,9 +1,6 @@
 package hi.is.vidmot.bouncedown;
 
-import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
-
-
 
 public class Bolti extends ImageView implements Leikhlutur {
     private final int hreyfing = 8;
@@ -30,7 +27,6 @@ public class Bolti extends ImageView implements Leikhlutur {
         }
 
     }
-
     public void afram() {
         if (movingLeft != movingRight){
             if(movingLeft) setX(getX()-hreyfing);

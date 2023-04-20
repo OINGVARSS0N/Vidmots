@@ -3,11 +3,8 @@ package hi.is.vidmot.bouncedown;
 import Vinnsla.Leikur;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,8 +13,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Optional;
+import java.io.IOException;
 
 
 public class BouncedownController{
@@ -26,20 +22,23 @@ public class BouncedownController{
     Leikbord fxLeikbord;
     @FXML
     Label fxStig;
+    private MediaPlayer mediaPlayer;
     boolean isPaused=false;
 
     private Timeline t;
-
-    private static final HashMap<KeyCode, Integer> map = new HashMap<>();
     Leikur leikur;
 
     public void initialize(){
         leikur = new Leikur(fxStig);
+        String lag = "src/main/java/hi/is/vidmot/bouncedown/seashanty.mp3";
+        Media sound = new Media(new File(lag).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
     }
     public void orvatakkar() {
         fxLeikbord.orvatakkar();
     }
-
     public void hefjaLeik() {
         if (t != null) {
             t.stop();
@@ -47,18 +46,22 @@ public class BouncedownController{
         KeyFrame k = new KeyFrame(Duration.millis(35), e -> {
             fxLeikbord.afram(leikur);
             fxLeikbord.athugaArekstur();
-            leiklokid();
+            try {
+                leiklokid();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         t = new Timeline(k);
         t.setCycleCount(Timeline.INDEFINITE);
         t.play();
     }
 
+    /**
+     * notar "m" til þess að mutea leikinn
+     * þessi klasi bætir við hljóði fyrir leikinn.
+     */
     public void muteaLeik(){
-        //notar "m" til þess að mutea leikinn
-        String lag = "src/main/java/hi/is/vidmot/bouncedown/seashanty.mp3";
-        Media sound = new Media(new File(lag).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
         Button muteButton = new Button("Mute");
         muteButton.setOnAction(event -> {
             mediaPlayer.setMute(!mediaPlayer.isMute());
@@ -73,29 +76,37 @@ public class BouncedownController{
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     }
+
+    /**
+     * notar "ESCAPE" takkan til þess að pása og
+     * byrja leikinn aftur.
+     * þessi klasi bætir við þeim möguleika að pása leikinn.
+     */
     public void pasaLeik(){
-        //notar ESC til þess að pása leikinn
         fxStig.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                // Togglar pásuna
                 isPaused = !isPaused;
 
                 if (isPaused) {
-                    // Pásar
                     t.pause();
                 } else {
-                    // Byrjar
                     t.play();
                 }
             }
         });
 
     }
-    //þegar characterinn fer á botninn eða toppinn þá tapast leikurinn og það kemur aðvörun Dialog
-    private void leiklokid() {
+
+    /**
+     * Ef leikurinn tapast þá skiptir viewswitcherinn
+     * í endscreenið.
+     */
+    private void leiklokid() throws IOException {
         if (fxLeikbord.tapaleik) {
             t.stop();
-            Platform.runLater(() -> ViewSwitcher.switchTo(View.EndScreen));
+            mediaPlayer.stop();
+            leikur.saveScoreToFile();
+            ViewSwitcher.switchTo(View.EndScreen);
         }
     }
 }

@@ -6,10 +6,11 @@
 <?import hi.is.vidmot.bouncedown.Pallur?>
 
 <fx:root type="javafx.scene.layout.Pane" fx:id="fxLeikbord" prefHeight="600.0" prefWidth="600.0" styleClass="leikbord" stylesheets="@bouncingball.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-    <Bolti fx:id="fxbolti"/>
+    <Bolti fx:id="fxbolti" fitWidth="20" fitHeight="60"/>
     <Pallur fx:id="fxpallur1"/>
     <Pallur fx:id="fxpallur2"/>
     <Pallur fx:id="fxpallur3"/>
     <Pallur fx:id="fxpallur4"/>
     <Pallur fx:id="fxpallur5"/>
+    <Pallur fx:id="fxpallur6"/>
 </fx:root>

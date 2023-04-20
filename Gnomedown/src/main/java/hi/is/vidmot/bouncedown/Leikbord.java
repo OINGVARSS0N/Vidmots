@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import Vinnsla.Leikur;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import java.util.Random;
 
@@ -28,6 +26,8 @@ public class Leikbord extends Pane {
     private Pallur fxpallur4;
     @FXML
     private Pallur fxpallur5;
+    @FXML
+    private Pallur fxpallur6;
     public boolean tapaleik = false;
     private final int Max_breidd = 600;
     private final int Max_haed = 600;
@@ -38,22 +38,26 @@ public class Leikbord extends Pane {
         bolti();
         pallar();
     }
+
     //staðsetur boltan
     public void bolti() {
-        fxbolti.setTranslateX(10);
+        fxbolti.setTranslateX(1);
         fxbolti.setTranslateY(1);
         fxbolti.setX(Max_breidd/2);
         fxbolti.setY(100);
+        fxbolti.setFitHeight(50);
     }
 
+    //hreinsar og bætir við pöllum.
     public void pallar() {
         pallur.clear();
-        pallur.addAll(fxpallur1, fxpallur2, fxpallur3, fxpallur4, fxpallur5);
+        pallur.addAll(fxpallur1, fxpallur2, fxpallur3, fxpallur4, fxpallur5,fxpallur6);
         pallur.forEach(p -> {
-            p.setX(random.nextInt(Max_breidd-120));
-            p.setY(random.nextInt(Max_haed-50));
+            p.setX(random.nextInt(Max_breidd - 150));
+            p.setY(random.nextInt(400) + 200);
         });
     }
+
     public void athugaArekstur() {
         double yHradiBolta = fxbolti.getY() + fxbolti.getFitHeight();
         boolean collided = false;
@@ -78,8 +82,10 @@ public class Leikbord extends Pane {
             fxbolti.setY(highestPallurY - fxbolti.getFitHeight());
         }
     }
+
+    //ef leikmaður fer upp í eða niður í mörkin á leikborðinu þá tapast leikurinn
     public void tapaleik() {
-        if (fxbolti.getY() > Max_haed || fxbolti.getY() < 0) {
+        if (fxbolti.getY() > 600) {
             tapaleik = true;
         }
     }
@@ -88,26 +94,32 @@ public class Leikbord extends Pane {
             fxbolti.move(270);
             fxbolti.afram();
 
-            // Prevent fxBolti from going out of bounds
+            // Passar að boltinn fari ekki út fyrir leikinn
             if (fxbolti.getX() < 0) {
                 fxbolti.setX(0);
             } else if (fxbolti.getX() + fxbolti.getFitWidth() > Max_breidd) {
                 fxbolti.setX(Max_breidd - fxbolti.getFitWidth());
             }
 
-            // Check for collision with platforms
             athugaArekstur();
 
-            // Move platforms
+            // Færir pallana
             for (Pallur i : pallur){
                 i.move(270);
             }
+            //hækkar stigin ef leikur er í gangi
+            if(!tapaleik){
+                leikur.haekkastig(1);
 
-            // Check if the ball has fallen out of the frame
+            }
             tapaleik();
         }
     }
 
+    /**
+     * vinstri örvatakkinn færir boltan til vinstri
+     * hægri örvatakkinn færir boltan til hægri
+     */
     public void orvatakkar() {
         fxbolti.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> {

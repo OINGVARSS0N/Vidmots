@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 
 public class BouncedownApplication extends Application {
-    public static final String skra = "Bouncedown";
+
     @Override
     public void start(Stage stage) throws Exception {
         Scene scene = new Scene(new Pane(),600,600);
@@ -16,8 +16,6 @@ public class BouncedownApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-
 
     public static void main(String[] args) {
         launch();
